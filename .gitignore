@@ -1,0 +1,42 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+env/
+.venv/
+venv/
+
+# Frappe runtime
+logs/
+sites/*/logs/
+sites/*/private/
+sites/*/public/files/
+sites/*/private/files/
+
+# Site configuration / secrets
+sites/*/site_config.json
+sites/common_site_config.json
+
+# Generated assets
+sites/assets/
+
+# Node
+node_modules/
+
+# Build
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
