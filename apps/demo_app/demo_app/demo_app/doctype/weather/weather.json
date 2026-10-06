@@ -1,0 +1,101 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "autoname": "hash",
+    "doctype": "DocType",
+    "field_order": [
+        "weather_section",
+        "city",
+        "temperature",
+        "weather_column_break",
+        "condition",
+        "recorded_at",
+        "preview_section",
+        "weather_preview"
+    ],
+    "fields": [
+        {
+            "fieldname": "weather_section",
+            "fieldtype": "Section Break",
+            "label": "Weather Information"
+        },
+        {
+            "fieldname": "city",
+            "fieldtype": "Data",
+            "in_list_view": 1,
+            "label": "City",
+            "reqd": 1,
+            "search_index": 1
+        },
+        {
+            "fieldname": "temperature",
+            "fieldtype": "Float",
+            "in_list_view": 1,
+            "label": "Temperature (°C)",
+            "precision": "1"
+        },
+        {
+            "fieldname": "weather_column_break",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "condition",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "label": "Condition",
+            "options": "Sunny\nCloudy\nRainy\nSnowy\nStormy\nFoggy"
+        },
+        {
+            "default": "now",
+            "fieldname": "recorded_at",
+            "fieldtype": "Datetime",
+            "in_list_view": 1,
+            "label": "Recorded At"
+        },
+        {
+            "fieldname": "preview_section",
+            "fieldtype": "Section Break",
+            "label": "Weather Preview"
+        },
+        {
+            "fieldname": "weather_preview",
+            "fieldtype": "HTML"
+        }
+    ],
+    "icon": "cloud",
+    "links": [],
+    "module": "Demo App",
+    "name": "Weather",
+    "naming_rule": "Random",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        },
+        {
+            "create": 1,
+            "delete": 0,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "Desk User",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "recorded_at",
+    "sort_order": "DESC",
+    "states": [],
+    "title_field": "city",
+    "track_changes": 1
+}

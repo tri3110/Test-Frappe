@@ -1,0 +1,149 @@
+"""
+Script to run Python tests while capturing accurte coverage.
+
+Enabling coverage after `frappe` is imported leaves out a lot of lines that are imported by
+default.
+
+This is essentially a copy of `frappe/coverage.py` BUT also triggers test runner with desired
+configuration.
+"""
+
+import json
+import os
+import sys
+from pathlib import Path
+
+import impact_map
+from coverage import Coverage
+
+STANDARD_INCLUSIONS = ["*.py"]
+
+STANDARD_EXCLUSIONS = [
+	"*.js",
+	"*.xml",
+	"*.pyc",
+	"*.css",
+	"*.less",
+	"*.scss",
+	"*.vue",
+	"*.html",
+	"*/test_*/*",
+	"*/node_modules/*",
+	"*/doctype/*/*_dashboard.py",
+	"*/patches/*",
+	".github/*",
+]
+
+# tested via commands' test suite
+TESTED_VIA_CLI = [
+	"*/frappe/installer.py",
+	"*/frappe/utils/install.py",
+	"*/frappe/utils/scheduler.py",
+	"*/frappe/utils/doctor.py",
+	"*/frappe/bundler.py",
+	"*/frappe/database/__init__.py",
+	"*/frappe/database/db_manager.py",
+	"*/frappe/database/**/setup_db.py",
+]
+
+FRAPPE_EXCLUSIONS = [
+	"*/tests/*",
+	"*/commands/*",
+	"*/frappe/change_log/*",
+	"*/frappe/exceptions*",
+	"*/frappe/desk/page/setup_wizard/setup_wizard.py",
+	"*/frappe/coverage.py",
+	"*frappe/setup.py",
+	"*/doctype/*/*_dashboard.py",
+	"*/patches/*",
+	"*/frappe/database/postgres/*",
+	"*/.github/helper/ci.py",
+	"*/frappe/database/sqlite/*",
+	*TESTED_VIA_CLI,
+]
+
+
+def get_bench_path():
+	"""Get the path to the bench directory."""
+	return Path(__file__).resolve().parents[4]
+
+
+class CodeCoverage:
+	"""
+	Context manager for handling code coverage.
+
+	This class sets up code coverage measurement for a specific app,
+	applying the appropriate inclusion and exclusion patterns.
+	"""
+
+	def __init__(self, with_coverage, app, outfile="coverage.xml", impact_map_outfile=None):
+		self.with_coverage = with_coverage
+		self.app = app or "frappe"
+		self.outfile = outfile
+		# Recording per-test attribution costs ~10-30% runtime, so it is opt-in (nightly only).
+		self.impact_map_outfile = impact_map_outfile
+
+	def __enter__(self):
+		if self.with_coverage:
+			# Generate coverage report only for app that is being tested
+			source_path = os.path.join(get_bench_path(), "apps", self.app)
+			omit = STANDARD_EXCLUSIONS[:]
+
+			if self.app == "frappe":
+				omit.extend(FRAPPE_EXCLUSIONS)
+
+			self.coverage = Coverage(source=[source_path], omit=omit, include=STANDARD_INCLUSIONS)
+
+			if self.impact_map_outfile:
+				# Tag every covered line with the test that ran it. Not a constructor argument.
+				self.coverage.set_option("run:dynamic_context", "test_function")
+
+			assert "frappe" not in sys.modules, "frappe already imported, coverage will be inaccurate"
+			self.coverage.start()
+		return self
+
+	def __exit__(self, exc_type, exc_value, traceback):
+		if self.with_coverage:
+			self.coverage.stop()
+			self.coverage.save()
+			self.coverage.xml_report(outfile=self.outfile)
+			print("Saved Coverage")
+
+			if self.impact_map_outfile:
+				self.save_impact_map()
+
+	def save_impact_map(self):
+		"""Invert this runner's coverage into `{source_file: [test_file]}` for `roulette.py`."""
+		app_path = os.path.join(get_bench_path(), "apps", self.app)
+		built = impact_map.build(self.coverage.get_data(), app_path)
+
+		with open(self.impact_map_outfile, "w") as f:
+			json.dump(built, f)
+
+		print(f"Saved impact map for {len(built['map'])} source files to {self.impact_map_outfile}")
+
+
+if __name__ == "__main__":
+	app = "frappe"
+	site = os.environ.get("SITE") or "test_site"
+	with_coverage = json.loads(os.environ.get("CAPTURE_COVERAGE", "true").lower())
+	impact_map_outfile = os.environ.get("IMPACT_MAP_OUTFILE")
+	# Chosen by `roulette.py` from the impact map; empty runs the full suite.
+	selected_tests = set(os.environ.get("SELECTED_TESTS", "").split()) or None
+
+	# Parse build information from environment variables
+	build_number = int(os.environ.get("BUILD_NUMBER"))
+	total_builds = int(os.environ.get("TOTAL_BUILDS"))
+
+	# Run tests with code coverage
+	with CodeCoverage(with_coverage=with_coverage, app=app, impact_map_outfile=impact_map_outfile):
+		from frappe.parallel_test_runner import ParallelTestRunner
+
+		runner = ParallelTestRunner(
+			app,
+			site=site,
+			build_number=build_number,
+			total_builds=total_builds,
+			selected_tests=selected_tests,
+		)
+		runner.setup_and_run()

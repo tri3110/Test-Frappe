@@ -1,0 +1,22 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"demo-home\",\"type\":\"card\",\"data\":{\"card_name\":\"Home\",\"col\":4}},{\"id\":\"demo-weather\",\"type\":\"card\",\"data\":{\"card_name\":\"Weather\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "home",
+ "is_hidden": 0,
+ "label": "Demo App",
+ "links": [],
+ "module": "Demo App",
+ "name": "Demo App",
+ "number_cards": [],
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "shortcuts": [],
+ "standard": 1,
+ "title": "Demo App",
+ "type": "Workspace"
+}
