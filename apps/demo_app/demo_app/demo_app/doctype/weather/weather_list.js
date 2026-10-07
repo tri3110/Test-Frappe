@@ -56,11 +56,18 @@ frappe.listview_settings["Weather"] = {
         $("<style>")
             .attr("type", "text/css")
             .html(`
-                .frappe-list .list-row-head .list-row-col[data-fieldname="temperature"],
-                .frappe-list .list-row .list-row-col[data-fieldname="temperature"] {
-                    text-align: center !important;
+                .frappe-list .list-row .list-row-col {
+                    border-right: 1px solid #e5e7eb !important;
+                    box-sizing: border-box;
                 }
 
+                .frappe-list .list-row-head {
+                    background: #f8f9fa;
+                    font-weight: 600;
+                }
+
+                .frappe-list .list-row-head .list-row-col[data-fieldname="temperature"],
+                .frappe-list .list-row .list-row-col[data-fieldname="temperature"],
                 .frappe-list .list-row-head .list-row-col[data-fieldname="condition"],
                 .frappe-list .list-row .list-row-col[data-fieldname="condition"] {
                     text-align: center !important;

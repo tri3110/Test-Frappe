@@ -1,0 +1,21 @@
+{
+ "based_on": "",
+ "chart_name": "Weather by Condition",
+ "chart_type": "Group By",
+ "doctype": "Dashboard Chart",
+ "document_type": "Weather",
+ "dynamic_filters_json": "[]",
+ "filters_json": "[]",
+ "group_by_based_on": "condition",
+ "group_by_type": "Count",
+ "is_public": 1,
+ "is_standard": 1,
+ "module": "Demo App",
+ "name": "Weather by Condition",
+ "number_of_groups": 0,
+ "roles": [],
+ "timeseries": 0,
+ "type": "Donut",
+ "use_report_chart": 0,
+ "y_axis": []
+}

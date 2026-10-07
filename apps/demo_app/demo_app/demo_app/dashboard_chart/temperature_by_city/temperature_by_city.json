@@ -1,0 +1,22 @@
+{
+  "based_on": "",
+  "chart_name": "Temperature by City",
+  "chart_type": "Group By",
+  "doctype": "Dashboard Chart",
+  "document_type": "Weather",
+  "dynamic_filters_json": "[]",
+  "filters_json": "[]",
+  "aggregate_function_based_on": "temperature",
+  "group_by_based_on": "city",
+  "group_by_type": "Average",
+  "is_public": 1,
+  "is_standard": 1,
+  "module": "Demo App",
+  "name": "Temperature by City",
+  "number_of_groups": 0,
+  "roles": [],
+  "timeseries": 0,
+  "type": "Bar",
+  "use_report_chart": 0,
+  "y_axis": []
+}

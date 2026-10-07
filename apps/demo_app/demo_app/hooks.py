@@ -26,6 +26,10 @@ app_include_css = [
     "/assets/demo_app/css/weather.css"
 ]
 
+app_include_js = [
+	"/assets/demo_app/js/desk.js"
+]
+
 # The dock, the rail down the left of the desk, is a document rather than a hook. Author it in
 # Manage Dock on a developer-mode site and press Export to App, and it is written to
 # `demo_app/dock/demo_app/demo_app.json` for git to carry. An app that ships none has no

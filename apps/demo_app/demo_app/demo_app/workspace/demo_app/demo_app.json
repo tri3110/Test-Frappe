@@ -1,22 +1,31 @@
 {
- "charts": [],
- "content": "[{\"id\":\"demo-home\",\"type\":\"card\",\"data\":{\"card_name\":\"Home\",\"col\":4}},{\"id\":\"demo-weather\",\"type\":\"card\",\"data\":{\"card_name\":\"Weather\",\"col\":4}}]",
- "custom_blocks": [],
- "doctype": "Workspace",
- "for_user": "",
- "hide_custom": 0,
- "icon": "home",
- "is_hidden": 0,
- "label": "Demo App",
- "links": [],
- "module": "Demo App",
- "name": "Demo App",
- "number_cards": [],
- "public": 1,
- "quick_lists": [],
- "roles": [],
- "shortcuts": [],
- "standard": 1,
- "title": "Demo App",
- "type": "Workspace"
+    "charts": [
+        {
+            "chart_name": "Weather by Condition",
+            "label": "Weather by Condition"
+        },
+        {
+            "chart_name": "Temperature by City",
+            "label": "Temperature by City"
+        }
+    ],
+    "content": "[{\"id\":\"weather-condition-chart\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Weather by Condition\",\"col\":12}},{\"id\":\"temperature-by-city-chart\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Temperature by City\",\"col\":12}}]",
+    "custom_blocks": [],
+    "doctype": "Workspace",
+    "for_user": "",
+    "hide_custom": 0,
+    "icon": "home",
+    "is_hidden": 0,
+    "label": "Demo App",
+    "links": [],
+    "module": "Demo App",
+    "name": "Demo App",
+    "number_cards": [],
+    "public": 1,
+    "quick_lists": [],
+    "roles": [],
+    "shortcuts": [],
+    "standard": 1,
+    "title": "Demo App",
+    "type": "Workspace"
 }

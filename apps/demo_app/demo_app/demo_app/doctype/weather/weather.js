@@ -78,3 +78,17 @@ function render_weather_preview(frm) {
         </div>
     `);
 }
+
+function get_weather_data(city) {
+    return frappe.call({
+        method: "demo_app.api.get_weather_data",
+        args: {
+            city: city
+        },
+        callback: function (r) {
+            if (r.message) {
+                console.log("Weather data for city:", city, r.message);
+            }
+        }
+    });
+}
